@@ -71,7 +71,7 @@ app.delete("/pets/:index", (req, res) => {
         return;
       }
       const pets = JSON.parse(data);
-      if (isNaN(index) || index < 0 || index >= pets.length) {
+      if (Number.isNaN(index) || index < 0 || index >= pets.length) {
         res.status(404).send("Not Found");
         return;
       }

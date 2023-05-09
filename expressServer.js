@@ -1,10 +1,12 @@
 import fs, { appendFile } from "node:fs";
-import express from "express"
+import express from "express";
 
+
+const PORT = 3001;
 const app = express();
 app.use(express.json());
 
-app.get("/pets", (req, res) => {
+export const getPets = app.get("/pets", (req, res) => {
     fs.readFile("pets.json", "utf-8", (err, str) => {
         if(err) {
             res.statusCode = 500;
@@ -18,7 +20,7 @@ app.get("/pets", (req, res) => {
     });
 });
 
-app.get("/pets/:index", (req, res) => {
+export const getPetsIndex = app.get("/pets/:index", (req, res) => {
     const index = parseInt(req.params.index);
     fs.readFile("pets.json", "utf-8", (err, str) => {
         if (err) {
@@ -38,7 +40,7 @@ app.get("/pets/:index", (req, res) => {
     });
 });
 
-app.post("/pets", (req, res) => {
+export const postPets = app.post("/pets", (req, res) => {
     const newPet = req.body;
     if (!newPet || !newPet.name || !newPet.type || !newPet.age) {
         res.status(400).send("incorrect pet data");
@@ -63,7 +65,7 @@ app.post("/pets", (req, res) => {
     });
 });
 
-app.delete("/pets/:index", (req, res) => {
+export const deletePets = app.delete("/pets/:index", (req, res) => {
     const index = parseInt(req.params.index);
     fs.readFile("pets.json", "utf-8", (err, data) => {
       if (err) {
@@ -86,6 +88,6 @@ app.delete("/pets/:index", (req, res) => {
     });
   });
 
-app.listen(3001, function () {
+app.listen(`${PORT}`, function () {
     console.log("server is running");
 });
